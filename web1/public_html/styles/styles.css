@@ -1,0 +1,71 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    min-height: 100%;
+    background-color: #343a40;
+    color: #fff;
+}
+#header{
+    height: 30px;
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: serif;
+    color: #302d2d;
+    font-size: 25px;
+}
+#main{
+    text-align: center;
+    margin: 1%;
+}
+#graph>img{
+    height: 20%;
+    width: 25%;
+    margin-bottom: 1%;
+}
+#form{
+    padding: 0.25%;
+    border: 1px solid rgb(164, 175, 175);
+    margin-left: 20%; 
+    margin-right: 20%;
+}
+#table{
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+table{
+    border-collapse: collapse;
+    width: 61.5%;
+    table-layout: fixed;
+}
+th, tr, td{
+    border: 1px solid rgb(164, 175, 175);
+    border-collapse: collapse;
+}
+caption{
+    border: 1px solid rgb(164, 175, 175);
+    background-color: rgb(27, 27, 123);
+}
+.send-input{
+    width: 15%;
+}
+.choose-input{
+    width: 10%;
+}
+.form-title{
+    border: 1px solid rgb(164, 175, 175);
+    background-color: rgb(27, 27, 123);
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.send-input, .choose-input {
+    font-weight: bold;
+}
+#notification{
+    color: red;
+}
