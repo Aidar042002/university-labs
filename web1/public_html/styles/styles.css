@@ -29,7 +29,7 @@ body{
 #form{
     padding: 0.25%;
     border: 1px solid rgb(164, 175, 175);
-    margin-left: 20%; 
+    margin-left: 20%;
     margin-right: 20%;
 }
 #table{
@@ -41,11 +41,11 @@ body{
 table{
     border-collapse: collapse;
     width: 61.5%;
-    table-layout: fixed;
 }
 th, tr, td{
     border: 1px solid rgb(164, 175, 175);
     border-collapse: collapse;
+    width: 5%;
 }
 caption{
     border: 1px solid rgb(164, 175, 175);

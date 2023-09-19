@@ -23,7 +23,7 @@
         <div id="form">
             <form id="data-form">
                 <span>X:</span>
-                <input type="number" id="x" name="x" class="choose-input" placeholder="-5...5"><br>
+                <input type="text" id="x" name="x" class="choose-input" placeholder="-5...5"><br>
                 <span>Y:</span>
                 <select name="y" id="y" class="choose-input">
                     <option value="" disabled selected hidden>Выберите Y</option>
@@ -49,24 +49,7 @@
                 <input type="submit" id="sendButton" class="send-input"><br>
                 <input type="reset" name="reset-btn" id="reset-bnt" class="send-input">
             </form>
-            <button id="clearButton" class="send-input">Очистить таблицу</button>
-        </div>
-
-        <div id="table">
-            <table id="results">
-                <caption><b>Таблица</b></caption>
-                <thead>
-                    <tr>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>R</th>
-                        <th>hit</th>
-                        <th>time</th>
-                        <th>execute</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <button class="send-input"><a href="results.html">Таблица</a></button>
         </div>
 
     </div>

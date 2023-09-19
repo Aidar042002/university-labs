@@ -1,11 +1,25 @@
 <?php
 $start_time = microtime(true);
+$x = isset($_GET['x']) ? str_replace(',', '.', $_GET['x']) : null;
+$y = isset($_GET['y']) ? str_replace(',', '.', $_GET['y']) : null;
+$r = isset($_GET['r']) ? str_replace(',', '.', $_GET['r']) : null;
 
-if(isset($_GET['x'])&&isset($_GET['y'])&&isset($_GET['r'])){
-    $x=floatval($_GET['x']);
-    $y=floatval($_GET['y']);
-    $r=floatval($_GET['r']);
+
+if(!($x !== null && is_numeric($x)) || ($x < -5 || $x > 5)){
+    echo 'Ошибка: неверное значение для параметра x';
+    exit();
 }
+
+if(!($y!=null && is_numeric($y)) || ($y < -3 || $y > 5)){
+    echo 'Ошибка: неверное значение для параметра y';
+    exit();
+}
+
+if(!($r!=null && is_numeric($r)) || ($r < 1 || $r > 3)){
+    echo 'Ошибка: неверное значение для параметра r';
+    exit();
+}
+
 $hit = '-';
 
 if ($x >= 0 && $y >= 0) { // 1-я четверть
@@ -33,6 +47,5 @@ $rowHTML .= '<td>'.$execution_time.' мкc'.'</td>';
 $rowHTML .= '</tr>';
 
 echo $rowHTML;
+
 ?>
-
-
