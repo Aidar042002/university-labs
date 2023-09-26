@@ -4,18 +4,20 @@ $x = isset($_GET['x']) ? str_replace(',', '.', $_GET['x']) : null;
 $y = isset($_GET['y']) ? str_replace(',', '.', $_GET['y']) : null;
 $r = isset($_GET['r']) ? str_replace(',', '.', $_GET['r']) : null;
 
+$validValuesY=[-3, -2, -1, 0, 1, 2, 3, 4, 5];
+$validValuesR=[1, 1.5, 2, 2.5, 3];
 
 if(!($x !== null && is_numeric($x)) || ($x < -5 || $x > 5)){
     echo 'Ошибка: неверное значение для параметра x';
     exit();
 }
 
-if(!($y!=null && is_numeric($y)) || ($y < -3 || $y > 5)){
+if(!($y!=null && is_numeric($y)) || ($y < -3 || $y > 5)|| !(in_array($y, $validValuesY))){
     echo 'Ошибка: неверное значение для параметра y';
     exit();
 }
 
-if(!($r!=null && is_numeric($r)) || ($r < 1 || $r > 3)){
+if(!($r!=null && is_numeric($r)) || ($r < 1 || $r > 3) || !(in_array($r, $validValuesR))){
     echo 'Ошибка: неверное значение для параметра r';
     exit();
 }

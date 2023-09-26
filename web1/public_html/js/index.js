@@ -3,23 +3,26 @@ $(function(){
     function checkX(x) {
         x = x.replace(',', '.');
         x = parseFloat(x);
-        if (isNaN(x) || x < -5 || x > 5) {
+        if (isNaN(x) || x < -5 || x > 5 || x=="") {
             return true;
         }
         return false;
     }
 
     function checkY(y){
+        var validValuesY=[-3, -2, -1, 0, 1, 2, 3, 4, 5];
         y = parseFloat(y);
-        if (isNaN(y) || y < -3 || y > 5) {
+        if (isNaN(y) || y < -3 || y > 5 || !validValuesY.includes(y)) {
             return true;
         }
         return false;
+        
     }
 
     function checkR(r){
-        if (r !== undefined && !isNaN(parseFloat(r))) {
-            r = parseFloat(r);
+        var validValuesR=[1, 1.5, 2, 2.5, 3];
+        r = parseFloat(r);
+        if (r !== undefined && !isNaN(parseFloat(r)) && validValuesR.includes(r)) {
             if (r>=1 && r <=3) {
                 return false;
             }
