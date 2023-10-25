@@ -1,0 +1,75 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #343a40;
+}
+header{
+    height: 30px;
+    background-color: #020269;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size:25px;
+    font-family:serif;
+    color: white;
+}
+main{
+    margin-top: 5px;
+    min-height: calc(100vh - 35px);
+    display: flex;
+    justify-content: center;
+}
+.sendData{
+    text-align: center;
+}
+.tableResults{
+    display: flex;
+    justify-content: center;
+}
+.area{
+    height: 520px;
+    width: 520px;
+    border:1px solid rgb(3, 3, 199);
+    background-color: white;
+    cursor: pointer;
+}
+.x-line, .y-line{
+    stroke: black;
+    stroke-width: 1.5;
+}
+.rectangle{
+    width: 26px;
+    height: 52px;
+    fill: blue;
+}
+.buttons{
+    height: 22px;
+    width: 130px;
+    font-weight: bold;
+}
+
+#error{
+    color: red;
+}
+table{
+    border-collapse: collapse;
+    width: 80%;
+}
+th, tr, td{
+    border: 1px solid rgb(164, 175, 175);
+    border-collapse: collapse;
+    color: white;
+}
+td{
+    word-wrap: break-word;
+    max-width: 100px;
+}
+.text{
+    color: white;
+}
+.buttons, input{
+    margin: 2px;
+}
