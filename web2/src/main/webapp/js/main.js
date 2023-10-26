@@ -1,6 +1,7 @@
 $(document).ready(function () {
     const tableResults = $(".tableResults");
     const tableBody = $('#results tbody');
+    var oldR=0;
 
     // Загрузка данных из localStorage
     function loadTableData() {
@@ -17,8 +18,7 @@ $(document).ready(function () {
     }
 
     function checkX(x) {
-//        x = x.replace(',', '.');
-        x = parseFloat(x);
+        x = x.replace(',', '.');
         if (isNaN(x) || x < -5 || x > 5 || x === "") {
             return true;
         }
@@ -26,8 +26,7 @@ $(document).ready(function () {
     }
 
     function checkY(y) {
-//        y = y.replace(',', '.');
-        y = parseFloat(y);
+        y = y.replace(',', '.');
         if (isNaN(y) || y < -5 || y > 3 || y === "") {
             return true;
         }
@@ -102,12 +101,13 @@ $(document).ready(function () {
 
         var xr=x*r;
         var yr=y*r;
-        if (checkX(xr)) {
+        if (checkX(xr.toString())) {
             $('#error').text('Введите x от -5 до 5');
+            console.log(xr);
             return;
         }
 
-        if (checkY(yr)) {
+        if (checkY(yr.toString())) {
             $('#error').text('Введите y от -5 до 3');
             return;
         }
@@ -131,6 +131,7 @@ $(document).ready(function () {
 
         x *= r;
         y *= r;
+
         updateTable(x, y, r);
     });
 
@@ -142,11 +143,22 @@ $(document).ready(function () {
 
         var points = JSON.parse(localStorage.getItem("points")) || [];
 
-        points.forEach(function (point) {
+        points.forEach(function (point,i) {
             var svg = $(".area");
             var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            var scaledX = point.x / r;
-            var scaledY = point.y / r;
+
+            var scaledY,scaledX;
+
+            if(oldR<r){
+                scaledX = point.x / r;
+                scaledY = point.y / r;
+            } else{
+                scaledX = point.x *oldR;
+                scaledY = point.y *oldR;
+            }
+
+            points[i].x = scaledX;
+            points[i].y = scaledY;
 
             circle.setAttribute("cx", scaledX * 52.0 + 260.0);
             circle.setAttribute("cy", 260.0 - scaledY * 52.0);
@@ -156,6 +168,7 @@ $(document).ready(function () {
         });
 
         localStorage.setItem("points", JSON.stringify(points));
+        oldR=r;
     });
 
     function updateTable(x, y, r) {
@@ -182,6 +195,9 @@ $(document).ready(function () {
         var y = $("#y").val();
         var r = $("input[name='r']:checked").val();
 
+        x = x.replace(',', '.');
+        y = y.replace(',', '.');
+
         if (checkX(x)) {
             $('#error').text('Введите x от -5 до 5');
             return;
@@ -196,9 +212,6 @@ $(document).ready(function () {
             $('#error').text('Выберите r');
             return;
         }
-
-        x = x.replace(',', '.');
-        y = y.replace(',', '.');
 
         var newPoint = {x: x, y: y, r: r};
 
@@ -222,8 +235,7 @@ $(document).ready(function () {
         $("#x").val("");
         $("#y").val("");
 
-        x *= r;
-        y *= r;
+
         updateTable(x, y, r);
     });
 });
