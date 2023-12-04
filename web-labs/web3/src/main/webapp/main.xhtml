@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Главная страница</title>
+    <h:outputStylesheet library="css" name="main.css"/>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js">$ = jQuery;</script>
+<!--    <script src="/weblab3/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&amp;v=12.0.0"></script>-->
+</h:head>
+<h:body id="body">
+    <header>
+        <h2>Главная страница</h2>
+    </header>
+    <main>
+        <div id="graph">
+            <canvas id="area" class="area" width="520" height="520"></canvas>
+        </div>
+        <div id="form">
+            <h:form id="myForm" validator="commonRValidator">
+                <p:outputLabel for="X" value="X:"/>
+                <p:spinner id="X" class="input-x" stepFactor="0.5" placeholder="enter(-4...4)">
+                    <f:validator validatorId="xValidator"/>
+                </p:spinner>
+                <br/>
+                <p:outputLabel for="Y" value="Y:"/>
+                <p:inputText id="Y" class="input input-y" placeholder="enter(-3...3)">
+                    <f:validator validatorId="yValidator"/>
+                </p:inputText>
+                <br/>
+                <h:commandLink class="r-btn" value="1" onclick="return selectR(event, this)">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+                <h:commandLink class="r-btn" value="1.5" onclick="return selectR(event,this)">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+                <h:commandLink class="r-btn" value="2" onclick="return selectR(event,this)">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+                <h:commandLink class="r-btn" value="2.5" onclick="return selectR(event,this)">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+                <h:commandLink class="r-btn" value="3" onclick="return selectR(event,this)">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+                <br/>
+                <p:commandButton id="send" value="Submit" ajax="false"/>
+                <div id="error"></div>
+                <p:remoteCommand name="sendDataToServer"
+                                 action="#{db.saveData}"
+                                 process="@this"
+                                 update="X Y " />
+            </h:form>
+        </div>
+        <h:form id="deleteAllForm" class="pageElement">
+            <p:commandButton value="Удалить все записи" action="#{db.deleteAllResults}"  update="tableForm:table" />
+        </h:form>
+        <div id="tableContainer" class="pageElement">
+            <h:form id="tableForm">
+                <h:dataTable id="table" value="#{db.allResults}" var="point">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{point.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{point.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{point.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Hit</f:facet>
+                        #{point.hit}
+                    </h:column>
+                </h:dataTable>
+                <p:remoteCommand name="update"
+                                 action="#{db.update}"
+                                 process="@this"
+                                 update="table" />
+            </h:form>
+        </div>
+
+        <div id="linkToIndex" class="pageElement">
+            <h:link outcome="goToIndex" value="Стартовая страница"/>
+        </div>
+
+    </main>
+    <h:outputScript library="js" name="main.js"/>
+</h:body>
+</html>
