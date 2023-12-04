@@ -1,1 +1,1 @@
-web-labs
+university-labs
