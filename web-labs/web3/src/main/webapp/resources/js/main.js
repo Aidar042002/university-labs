@@ -3,6 +3,8 @@ jQuery.noConflict();
        event.preventDefault();
        $('.r-btn').removeClass('selected');
        $(element).addClass('selected');
+       var selectedR = $(element).text();
+       $('#myForm\\:selectedR').val(selectedR);
        return false;
     }
 $(function(){
@@ -55,14 +57,14 @@ function drawAll(){
     ctx.fillStyle = "blue";
     ctx.beginPath();
     ctx.moveTo(260, 260);
-    ctx.lineTo(260, 312);
-    ctx.lineTo(208, 260);
+    ctx.lineTo(260, 325);
+    ctx.lineTo(195, 260);
     ctx.fill();
 
     // circle
     ctx.beginPath();
     ctx.moveTo(260, 260);
-    ctx.arc(260, 260, 52, Math.PI, 3 * Math.PI / 2, false);
+    ctx.arc(260, 260, 65, Math.PI, 3 * Math.PI / 2, false);
     ctx.lineTo(260, 260);
     ctx.closePath();
     ctx.fill();
@@ -70,7 +72,7 @@ function drawAll(){
 
     // rectangle
     ctx.fillStyle = "blue";
-    ctx.fillRect(260, 208, 26, 52);
+    ctx.fillRect(260, 195, 32.5, 65);
 
     // x-line and y-line
     ctx.beginPath();
@@ -114,25 +116,25 @@ function drawTextY(x, y, text, id) {
     ctx.fillText(text, x , textY);
 }
 
-drawLineX(208, 255, "rxTextNeg");
-drawLineX(234, 255, "rxTextNegHalf");
-drawLineX(286, 255, "rxTextHalf");
-drawLineX(312, 255, "rxText");
+drawLineX(195, 255, "rxTextNeg");
+drawLineX(227.5, 255, "rxTextNegHalf");
+drawLineX(292.5, 255, "rxTextHalf");
+drawLineX(325, 255, "rxText");
 
-drawTextX(208, 255, "-R", "rxTextNeg");
-drawTextX(234, 255, "-R/2", "rxTextNegHalf");
-drawTextX(286, 255, "R/2", "rxTextHalf");
-drawTextX(312, 255, "R", "rxText");
+drawTextX(195, 255, "-R", "rxTextNeg");
+drawTextX(227.5, 255, "-R/2", "rxTextNegHalf");
+drawTextX(292.5, 255, "R/2", "rxTextHalf");
+drawTextX(325, 255, "R", "rxText");
 
-drawLineY(255, 208, "ryText");
-drawLineY(255, 234, "ryTextHalf");
-drawLineY(255, 286, "ryTextNegHalf");
-drawLineY(255, 312, "ryTextNeg");
+drawLineY(255, 195, "ryText");
+drawLineY(255, 227.5, "ryTextHalf");
+drawLineY(255, 292.5, "ryTextNegHalf");
+drawLineY(255, 325, "ryTextNeg");
 
-drawTextY(255, 208, "R", "ryText");
-drawTextY(255, 234, "R/2", "ryTextHalf");
-drawTextY(255, 286, "-R/2", "ryTextNegHalf");
-drawTextY(255, 312, "-R", "ryTextNeg");
+drawTextY(255, 195, "R", "ryText");
+drawTextY(255, 227.5, "R/2", "ryTextHalf");
+drawTextY(255, 292.5, "-R/2", "ryTextNegHalf");
+drawTextY(255, 325, "-R", "ryTextNeg");
 
 
 function drawTextAndLine(ctx, x, y, textId, labelText) {
@@ -152,11 +154,9 @@ function drawTextAndLine(ctx, x, y, textId, labelText) {
 
     $("#area").click(function(event){
             $("#error").text('');
-            var x = (event.offsetX - 260) / (52);
-            var y = (260 - event.offsetY) / (52);
+            var x = (event.offsetX - 260) / (65);
+            var y = (260 - event.offsetY) / (65);
             var r= $('.r-btn.selected').text();
-
-            var newPoint = {x: x, y: y, r: r};
 
             if(!r) {
                 $("#error").text("Выберите r");
@@ -166,15 +166,15 @@ function drawTextAndLine(ctx, x, y, textId, labelText) {
             var xr=x*r;
             var yr=y*r;
 
-            if (checkX(xr)) {
-                 $('#error').text('Выберите x от -4 до 4. Ваше значение:'+xr);
-                 return;
-            }
+//            if (checkX(xr)) {
+//                 $('#error').text('Выберите x от -4 до 4. Ваше значение:'+xr);
+//                 return;
+//            }
 
-//             if(xr<-4 || xr>4){
-//                $('#error').text('Введите x от -4 до 4');
-//                return;
-//             }
+             if(xr<-4 || xr>4){
+                $('#error').text('Введите x от -4 до 4');
+                return;
+             }
 
             if (checkY(yr.toString())) {
                 $('#error').text('Введите y от -3 до 3');
@@ -186,12 +186,14 @@ function drawTextAndLine(ctx, x, y, textId, labelText) {
                  return;
             }
 
+            console.log("Сохранение в массив клик "+x);
+            var newPoint = {x: x, y: y, r: r};
             var points = JSON.parse(localStorage.getItem("points")) || [];
             points.push(newPoint);
             localStorage.setItem("points", JSON.stringify(points));
 
             ctx.beginPath();
-            ctx.arc(x * 52.0 + 260.0, 260.0 - y * 52.0, 3, 0, 2 * Math.PI);
+            ctx.arc(x * 65.0 + 260.0, 260.0 - y * 65.0, 3, 0, 2 * Math.PI);
             ctx.fillStyle = "red";
             ctx.fill();
 
@@ -228,11 +230,10 @@ function drawTextAndLine(ctx, x, y, textId, labelText) {
             points[i].y = scaledY;
 
             context.beginPath();
-            context.arc(scaledX * 52.0 + 260.0, 260.0 - scaledY * 52.0, 3, 0, 2 * Math.PI);
+            context.arc(scaledX * 65.0 + 260.0, 260.0 - scaledY * 65.0, 3, 0, 2 * Math.PI);
             context.fillStyle = "red";
             context.fill();
             context.closePath();
-            console.log("x="+scaledX+"  y="+scaledY+ "  r="+r+"   \n");
         });
 
         localStorage.setItem("points", JSON.stringify(points));
@@ -264,26 +265,26 @@ function drawTextAndLine(ctx, x, y, textId, labelText) {
                  return;
             }
 
-            var newPoint = {x: x, y: y, r: r};
+            var newPoint = {x: x/r, y: y/r, r: r};
 
             var points = JSON.parse(localStorage.getItem("points")) || [];
             points.push(newPoint);
             localStorage.setItem("points", JSON.stringify(points));
 
-                    points.forEach(function (point) {
+
                     var canvas = document.getElementById("area");
                     var ctx = canvas.getContext("2d");
 
-                    var scaledX = point.x / r;
-                    var scaledY = point.y / r;
+
+                    var scaledX = x / r;
+                    var scaledY = y / r;
 
 
                     ctx.beginPath();
-                    ctx.arc(scaledX * 52.0 + 260.0, 260.0 - scaledY * 52.0, 3, 0, 2 * Math.PI);
+                    ctx.arc(scaledX * 65.0 + 260.0, 260.0 - scaledY * 65.0, 3, 0, 2 * Math.PI);
                     ctx.fillStyle = "red";
                     ctx.fill();
                     ctx.closePath();
-                    });
 
                     updateTable(x, y, r);
                     $('#myForm\\:X_input').val("");

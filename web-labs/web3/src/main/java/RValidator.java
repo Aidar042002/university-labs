@@ -5,7 +5,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("commonRValidator")
+@FacesValidator("rValidator")
 public class RValidator implements Validator {
 
     private static final String[] ALLOWED_VALUES = {"1", "1.5", "2", "2.5", "3"};

@@ -136,6 +136,7 @@ import org.primefaces.PrimeFaces;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -147,6 +148,18 @@ import java.util.List;
 @ManagedBean(name = "db")
 @ApplicationScoped
 public class Connection {
+
+    private Point point = new Point(); // Используйте объект Point для хранения данных
+
+    // Геттер и сеттер для point
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
 
     private static EntityManagerFactory emf;
 
@@ -256,10 +269,4 @@ public class Connection {
         }
     }
 
-    @PreDestroy
-    public void destroy() {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
-        }
-    }
 }
