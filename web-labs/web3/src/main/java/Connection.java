@@ -149,9 +149,8 @@ import java.util.List;
 @ApplicationScoped
 public class Connection {
 
-    private Point point = new Point(); // Используйте объект Point для хранения данных
+    private Point point = new Point();
 
-    // Геттер и сеттер для point
 
     public Point getPoint() {
         return point;
