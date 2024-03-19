@@ -16,12 +16,12 @@ public class Main {
         return f;
     }
 
-    public static double getDerivative(double x, double e) {
-        return (func(x + e) - func(x - e)) / (2 * e);
+    public static double getDerivative(double x) {
+        return 4*Math.pow(x,3)+2*x+1;
     }
 
-    public static double getSecondDerivative(double x, double e) {
-        return (func(x + e) - 2 * func(x) + func(x - e)) / Math.pow(e, 2);
+    public static double getSecondDerivative(double x) {
+            return 12* Math.pow(x, 2)+2;
     }
 
     public static double halfDivision(double a, double b, double e){
@@ -63,12 +63,12 @@ public class Main {
     }
 
     public static double chords(double a, double b, double e) {
-        double aDer = getDerivative(a, e);
-        double bDer = getDerivative(b, e);
+        double aDer = getDerivative(a);
+        double bDer = getDerivative(b);
 
         while (true) {
             double x = a - (aDer / (aDer - bDer)) * (a - b);
-            double xDer = getDerivative(x, e);
+            double xDer = getDerivative(x);
 
             if (xDer <= e) {
                 return x;
@@ -86,21 +86,26 @@ public class Main {
 
     public static double newton(double a, double b, double e) {
         double x0 = b;
-        double x0Der = getDerivative(x0, e);
-        double x0SDer = getSecondDerivative(x0, e);
+        double x0Der = getDerivative(x0);
+        double x0SDer = getSecondDerivative(x0);
         double x = x0 - (x0Der / x0SDer);
 
         while (true) {
-            double xDer = getDerivative(x, e);
+            double xDer = getDerivative(x);
 
             if (Math.abs(xDer) < e) {
                 break;
             }
 
-            x = x - xDer / getSecondDerivative(x, e);
+            x = x - xDer / getSecondDerivative(x);
         }
 
         return x;
     }
 
 }
+
+
+
+
+
