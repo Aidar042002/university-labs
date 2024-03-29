@@ -79,11 +79,11 @@ class Result {
         boolean converged = false;
         int maxIterations = 100;
 
-        for (int iter = 0; iter < maxIterations; iter++) {
+        for (int iter = 0; iter < maxIterations; iter++) {//1
             List<List<Double>> jacobian = new ArrayList<>();
-            for (int i = 0; i < number_of_unknowns; i++) {
+            for (int i = 0; i < number_of_unknowns; i++) {//2
                 List<Double> row = new ArrayList<>();
-                for (int j = 0; j < number_of_unknowns; j++) {
+                for (int j = 0; j < number_of_unknowns; j++) {//3
                     double h = epsilon;
                     List<Double> xPlusH = new ArrayList<>(x);
                     xPlusH.set(j, x.get(j) + h);

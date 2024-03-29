@@ -98,6 +98,7 @@ public class Main {
             }
 
             x = x - xDer / getSecondDerivative(x);
+
         }
 
         return x;
