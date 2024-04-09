@@ -1,93 +1,134 @@
+import java.util.HashMap;
+
 public class Main {
+
     public static void main(String[] args) {
-        double x1 = 1; // начальная первая точка
-        double deltaX = 1; // величина шага
-        double e1 = 0.00005; // точность для Fmin
-        double e2 = 0.0001; // точность для x_min
-
-
-
-        // Функция f(x) = x^4 + x^2 + x + 1
-        Function f = (x) -> Math.pow(x, 4) + Math.pow(x, 2) + x + 1;
-
-        int iteration = 0;
-        double x2, x3, x_cp, Fmin, x_min, f_x1, f_x2, f_x3;
-
-        do {
-            // Шаг 2: Вычислить вторую точку x2
-            x2 = deltaX + x1;
-
-            // Шаг 3: Вычислить значения функции f(x1) и f(x2)
-            f_x1 = f.apply(x1);
-            f_x2 = f.apply(x2);
-
-            // Шаг 4: Сравнить точки f(x1) и f(x2)
-            if (f_x1 > f_x2) {
-                x3 = x1 + 2 * deltaX; // a) если f(x1) > f(x2)
-            } else {
-                x3 = x1 - deltaX; // б) если f(x1) <= f(x2)
-            }
-
-            // Шаг 5: Вычислить f(x3)
-            f_x3 = f.apply(x3);
-
-            // Шаг 6: Найти Fmin и x_min
-            if (f_x1 <= f_x2 && f_x1 <= f_x3) {
-                Fmin = f_x1;
-                x_min = x1;
-            } else if (f_x2 <= f_x1 && f_x2 <= f_x3) {
-                Fmin = f_x2;
-                x_min = x2;
-            } else {
-                Fmin = f_x3;
-                x_min = x3;
-            }
-
-            // Шаг 7: Найти x_cp и f(x_cp)
-            double numerator = ((Math.pow(x2, 2) - Math.pow(x3, 2)) * f_x1 +
-                    (Math.pow(x3, 2) - Math.pow(x1, 2)) * f_x2 +
-                    (Math.pow(x1, 2) - Math.pow(x2, 2)) * f_x3);
-            double denominator = ((x2 - x3) * f_x1 + (x3 - x1) * f_x2 + (x1 - x2) * f_x3);
-
-            if (denominator != 0) {
-                x_cp = 0.5 * numerator / denominator;
-            } else {
-                // Если знаменатель равен нулю, то результат итерации является прямой
-                System.out.println("Знаменатель равен нулю. Итерация является прямой.");
-                x1 = x_min;
-                continue;
-            }
-
-            double f_x_cp = f.apply(x_cp);
-
-            // Шаг 8: Проверка условий окончания расчета
-            double condition1 = Math.abs((Fmin - f_x_cp) / f_x_cp);
-            double condition2 = Math.abs((x_min - x_cp) / x_cp);
-
-            if (condition1 < e1 && condition2 < e2) {
-                System.out.println("Решение найдено:");
-                System.out.println("x* = " + x_cp);
-                System.out.println("f(x*) = " + f_x_cp);
-                break;
-            }
-
-
-            // Переход к следующей итерации
-            if (x_cp >= Math.min(x1, Math.min(x2, x3)) && x_cp <= Math.max(x1, Math.max(x2, x3))) {
-                if (x_min <= x_cp) {
-                    x1 = x_min;
-                } else {
-                    x1 = x_cp;
-                }
-            } else {
-                x1 = x_cp;
-            }
-
-            iteration++;
-        } while (true);
+        double res = quadraticApproximationMethod();
+        System.out.println(res);
     }
 
-    interface Function {
-        double apply(double x);
+    static double f(double x) {
+        return Math.pow(x,4) +Math.pow(x,2) +x+1;
+    }
+
+    static double quadraticApproximationMethod() {
+        //шаг1
+        double x1 = -1;
+        double delta_x = 0.05;
+        double epsilon = 0.0001;
+        double epsilon1 = epsilon;
+        double epsilon2 = epsilon;
+
+        double[] x = new double[3];
+        double[] f_x = new double[3];
+
+        double x_result = 0.0;
+
+        boolean can_continue = true;
+        while (can_continue) {
+            //шаг2
+            double x2 = x1 + delta_x;
+            double x3;
+            //шаг3,4
+            if (f(x1) > f(x2)) {
+                x3 = x1 + 2 * delta_x;
+            } else {
+                x3 = x1 - delta_x;
+            }
+
+            while (true) {
+                //шаг5
+                double[] xs = {x1, x2, x3};
+                for (int i = 0; i < xs.length; i++) {
+                    x[i] = xs[i];
+                    f_x[i] = f(xs[i]);
+                }
+                //Для хранения значений и соответствующих функций
+                HashMap<Double, Double> map = new HashMap<>();
+                for (int i = 0; i < x.length; i++) {
+                    map.put(f_x[i], x[i]);
+                }
+
+                //шаг6
+                double x_min = map.getOrDefault(min(f_x), x1);
+                double F_min = f(x_min);
+
+                double nominator = (x2*x2 - x3*x3) * f(x1) + (x3*x3 - x1*x1) * f(x2) + (x1*x1 - x2*x2) * f(x3);
+                double denominator = 2 * ((x2 - x3) * f(x1) + (x3 - x1) * f(x2) + (x1 - x2) * f(x3));
+
+                //шаг7 находим прбилижение x
+                double x_ = nominator / denominator;
+                //шаг8 проверка условия окончания
+                boolean is_e1 = Math.abs((F_min - f(x_)) / f(x_)) < epsilon1;
+                boolean is_e2 = Math.abs((x_min - x_) / x_) < epsilon2;
+
+                if (denominator == 0) {
+                    x1 = x_min;
+                    break;
+                }
+
+                if (is_e1 && is_e2) {
+                    x_result = x_;
+                    can_continue = false;
+                    break;
+                } else {
+                    if (x1 < x_ && x_ < x3) {
+                        double x_mid;
+                        if (f(x_min) < f(x_)) {
+                            x_mid = x_min;
+                        } else {
+                            x_mid = x_;
+                        }
+
+                        double[] filtered_xs = filter(x, x_mid);
+                        double x_left = max(filtered_xs[0], filtered_xs[1]);
+                        double x_right = min(filtered_xs[2], filtered_xs[3]);
+
+                        x1 = x_left;
+                        x2 = x_mid;
+                        x3 = x_right;
+                    } else {
+                        x1 = x_;
+                        break;
+                    }
+                }
+            }
+        }
+        return x_result;
+    }
+
+    static double min(double[] arr) {
+        double min = Double.MAX_VALUE;
+        for (double v : arr) {
+            if (v < min) {
+                min = v;
+            }
+        }
+        return min;
+    }
+
+    static double[] filter(double[] arr, double x_mid) {
+        double[] filtered = new double[4];
+        int idx = 0;
+        for (double v : arr) {
+            if (v < x_mid) {
+                filtered[idx++] = v;
+            }
+        }
+        filtered[idx++] = x_mid;
+        for (double v : arr) {
+            if (v > x_mid) {
+                filtered[idx++] = v;
+            }
+        }
+        return filtered;
+    }
+
+    static double max(double a, double b) {
+        return Math.max(a, b);
+    }
+
+    static double min(double a, double b) {
+        return Math.min(a, b);
     }
 }
