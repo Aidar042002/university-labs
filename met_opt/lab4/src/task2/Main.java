@@ -53,24 +53,33 @@ public class Main {
     public static double getGradTwo(double x1, double x2){
         return 4*Math.pow(x2, 3)+4*x1-4*x2;
     }
-    
+
     public static double getStep(double x1, double x2, double sx, double sy){
         double a=-5;
-        double b=Math.pow(x1, 2)+Math.pow(x2, 2);
+        double b=5;
+        int count=0;
         while (b-a>2*e){
-            double h1=(a+b-e)/2;
-            double h2=(a+b+e)/2;
+            count++;
+            double m1=(a+b-e)/2;
+            double m2=(a+b+e)/2;
 
-            double y1=getFunction(x1-h1*sx, x2-h1*sy);
-            double y2=getFunction(x1-h2*sx, x2-h2*sy);
+//            System.out.println("H::::::::::::::count="+count);
+            double y1=getFunction(x1-m1*sx, x2-m1*sy);
+//            System.out.println("H:::::::::::::y1="+y1);
+            double y2=getFunction(x1-m2*sx, x2-m2*sy);
+//            System.out.println("H:::::::::::y2="+y2);
+//            System.out.println("_________________-");
 
             if(y1>y2){
-                a=h1;
+                a=m1;
             } else{
-                b=h2;
+                b=m2;
             }
         }
         return (a+b)/2;
     }
 
 }
+
+
+
